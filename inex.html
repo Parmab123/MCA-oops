@@ -1,0 +1,1478 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Code Viewer</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        .code {
+            cursor: pointer;
+            padding: 15px;
+            font-family: 'Courier New', Courier, monospace;
+            color: #007BFF;
+            background-color: rgb(25, 21, 21);
+        }
+
+        .code-block {
+            display: none;
+            background-color: #645e5e;
+            padding: 10px;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            overflow-x: auto;
+        }
+
+        .code-block {
+            display: none;
+            background-color: #645e5e;
+            padding: 10px;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            overflow-x: auto;
+            position: relative;
+        }
+
+        .copy-btn {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background-color: #007BFF;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            padding: 5px 10px;
+            cursor: pointer;
+            font-size: 12px;
+        }
+
+        .copy-btn:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <h1>Code Viewer</h1>
+        <nav>
+            <ul>
+                <li><a href="#home">Home</a></li>
+                <li><a href="#about">About</a></li>
+                <li><a href="#contact">Contact</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <!-- First Code Block -->
+        <p class="code"> Implement a class Complex which represents the Complex Number data type. Implement the
+            following
+            operations:
+            1. Constructor (including a default constructor which creates the complex number0+0i).
+            2. Overloaded operator+ to add two complex numbers.
+            3. Overloaded operator* to multiply two complex numbers.
+            4. Overloaded << and>> to print and read Complex Numbers.</p>
+        <pre class="code-block">
+        <button class="copy-btn">Copy</button>
+        <code>
+#include <iostream>
+using namespace std;
+
+class Complex {
+private:
+    double real;
+    double imag;
+
+public:
+    Complex() : real(0), imag(0) {}
+    Complex(double r, double i) : real(r), imag(i) {}
+    Complex operator+(const Complex& other) const {
+        return Complex(real + other.real, imag + other.imag);
+    }
+    Complex operator*(const Complex& other) const {
+        return Complex((real * other.real - imag * other.imag), (real * other.imag + imag * other.real));
+    }
+    friend ostream& operator<<(ostream& out, const Complex& c) {
+        out << c.real << (c.imag >= 0 ? "+" : "") << c.imag << "i";
+        return out;
+    }
+    friend istream& operator>>(istream& in, Complex& c) {
+        cout << "Enter real part: ";
+        in >> c.real;
+        cout << "Enter imaginary part: ";
+        in >> c.imag;
+        return in;
+    }
+};
+
+int main() {
+    Complex c1, c2, sum, product;
+    cin >> c1 >> c2;
+    sum = c1 + c2;
+    product = c1 * c2;
+    cout << "Sum: " << sum << endl;
+    cout << "Product: " << product << endl;
+    return 0;
+}
+        </code>
+    </pre>
+
+        <!-- Second Code Block -->
+        <p class="code">Implement a class Quadratic that represents degree two polynomials i.e., polynomials of type
+            ax2+bx+c.
+            The class will require three data members corresponding to a, b and c. Implement the following
+            operations:
+            1. A constructor (including a default constructor which creates the 0polynomial).
+            2. Overloaded operator+ to add two polynomials of degree2.
+            3. Overloaded << and>> to print and read polynomials. To do this, you will need to decide what you
+                want your input and output format to looklike.
+                4. A function eval that computes the value of a polynomial for a given value ofx.
+                5. A function that computes the two solutions of the equationa x2+bx+c=0.</p>
+        <pre class="code-block">
+        <button class="copy-btn">Copy</button>
+        <code>
+            #include <iostream>
+                #include <cmath>
+                
+                using namespace std;
+                
+                class Quadratic {
+                private:
+                    double a, b, c;
+                
+                public:
+                    // Default constructor
+                    Quadratic()
+                     {
+                        a = b = c = 0; 
+                     }
+                    Quadratic(double a, double b, double c) {
+                
+                        this->b = b;
+                        this->c = c;
+                        this->a = a;
+                    }
+                
+                    Quadratic operator+(const Quadratic& other) const {
+                        return Quadratic(a + other.a, b + other.b, c + other.c);
+                    }
+                
+                    friend ostream& operator<<(ostream& out, const Quadratic& q) {
+                        out << q.a << "x^2";
+                        if (q.b >= 0) out << "+" << q.b << "x";
+                        else out << q.b << "x";
+                        if (q.c >= 0) out << "+" << q.c;
+                        else out << q.c;
+                        return out;
+                    }
+                
+                    friend istream& operator>>(istream& in, Quadratic& q) {
+                        cout << "Enter coefficient a: ";
+                        in >> q.a;
+                        cout << "Enter coefficient b: ";
+                        in >> q.b;
+                        cout << "Enter coefficient c: ";
+                        in >> q.c;
+                        return in;
+                    }
+                
+                    double eval(double x) const {
+                        return a * x * x + b * x + c;
+                    }
+                
+                    void solve() const {
+                        double discriminant = b * b - 4 * a * c;
+                        if (discriminant > 0) {
+                            double root1 = (-b + sqrt(discriminant)) / (2 * a);
+                            double root2 = (-b - sqrt(discriminant)) / (2 * a);
+                            cout << "Two distinct real roots: " << root1 << " and " << root2 << endl;
+                        } else if (discriminant == 0) {
+                            double root = -b / (2 * a);
+                            cout << "One real root: " << root << endl;
+                        } else {
+                            cout << "No real roots." << endl;
+                        }
+                    }
+                };
+                
+                int main() {
+                    Quadratic q1, q2, sum;
+                
+                    cout << "Enter the first quadratic polynomial:" << endl;
+                    cin >> q1;
+                
+                    cout << "Enter the second quadratic polynomial:" << endl;
+                    cin >> q2;
+                
+                    sum = q1 + q2;
+                
+                    cout << "First polynomial: " << q1 << endl;
+                    cout << "Second polynomial: " << q2 << endl;
+                    cout << "Sum of polynomials: " << sum << endl;
+                
+                    double x;
+                    cout << "Enter a value for x to evaluate the sum: ";
+                    cin >> x;
+                    cout << "Value of the sum polynomial at x = " << x << " is: " << sum.eval(x) << endl;
+                
+                    cout << "Solving the equation for the sum polynomial:" << endl;
+                    sum.solve();
+                
+                    return 0;
+                }
+                
+        </code>
+    </pre>
+
+        <!-- third code block -->
+
+        <p class="code">Implement a class CppArray which is identical to a one-dimensional C++ array (i.e., the index
+            set is a set
+            of consecutive integers starting at 0) except for the following :
+            1. It performs range checking.
+            2. It allows one to be assigned to another array through the use of the assignment operator (e.g. cp1=cp2)
+            3. It supports a function that returns the size of thearray.
+            4. It allows the reading or printing of array through the use of coutandcin.</p>
+        <pre class="code-block">
+    <button class="copy-btn">Copy</button>
+    <code>
+        #include <iostream>
+
+            using namespace std;
+            
+            class CppArray {
+            private:
+                int* arr;
+                int size;
+            
+            public:
+                // Constructor
+                CppArray(int s) : size(s) {
+                    arr = new int[size];
+                    for (int i = 0; i < size; ++i) {
+                        arr[i] = 0; 
+                    }
+                }
+            
+                // Copy constructor
+                CppArray(const CppArray& other) : size(other.size) {
+                    arr = new int[size];
+                    for (int i = 0; i < size; ++i) {
+                        arr[i] = other.arr[i];
+                    }
+                }
+            
+                // Destructor
+                ~CppArray() {
+                    delete[] arr;
+                }
+            
+                // Assignment operator
+                CppArray& operator=(const CppArray& other) {
+                    if (this == &other) {
+                        return *this;
+                    }
+                    delete[] arr;
+            
+                    size = other.size;
+                    arr = new int[size];
+                    for (int i = 0; i < size; ++i) {
+                        arr[i] = other.arr[i];
+                    }
+                    return *this;
+                }
+            
+                // Range-checked element access
+                int& operator[](int index) {
+                    if (index < 0 || index >= size) {
+                        throw out_of_range("Index out of range");
+                    }
+                    return arr[index];
+                }
+                int getSize() const {
+                    return size;
+                }
+            
+                friend ostream& operator<<(ostream& out, const CppArray& cppArray) {
+                    for (int i = 0; i < cppArray.size; ++i) {
+                        out << cppArray.arr[i] << " ";
+                    }
+                    return out;
+                }
+            
+                // Overloaded >> to read the array
+                friend istream& operator>>(istream& in, CppArray& cppArray) {
+                    for (int i = 0; i < cppArray.size; ++i) {
+                        in >> cppArray.arr[i];
+                    }
+                    return in;
+                }
+            };
+            
+            int main() {
+                int size;
+                cout << "Enter the size of the array: ";
+                cin >> size;
+            
+                CppArray arr1(size);
+                cout << "Enter elements of the array: ";
+                cin >> arr1;
+            
+                cout << "Elements in arr1: " << arr1 << endl;
+            
+                CppArray arr2 = arr1; // Copy constructor
+                cout << "Elements in arr2 (after copy): " << arr2 << endl;
+            
+                CppArray arr3(size);
+                arr3 = arr1; // Assignment operator
+                cout << "Elements in arr3 (after assignment): " << arr3 << endl;
+            
+                try {
+                    cout << "Accessing element at index 2: " << arr1[2] << endl;
+                    cout << "Trying to access element at out-of-range index: ";
+                    cout << arr1[size] << endl; // This will throw an exception
+                } catch (const out_of_range& e) {
+                    cout << e.what() << endl;
+                }
+            
+                return 0;
+            }    
+            
+    </code>
+</pre>
+
+        <!-- four coe block -->
+        <p class="code">Write a C++ program create a calculator for an arithmetic operator (+, -, *, /). The program
+            should take
+            two operands from user and performs the operation on those two operands depending upon the operator
+            entered by user. Use a switch statement to select the operation. Finally, display the result.
+            Some sample interaction with the program might look like this:
+            Enter first number, operator, second number: 10 / 3 Answer =3.333333
+            Do another (y/n)?y
+            Enter first number, operator, second number: 12
+            + 100 Answer = 112 Do another (y/n)? n </p>
+        <pre class="code-block">
+    <button class="copy-btn">Copy</button>
+    <code>
+        #include <iostream>
+            #include <iomanip> // For setting precision
+            using namespace std;
+            
+            int main() {
+                char doAnother = 'y';
+            
+                while (doAnother == 'y' || doAnother == 'Y') {
+                    double num1, num2, result;
+                    char op;
+            
+                    // Prompt user for input
+                    cout << "Enter first number, operator, second number: ";
+                    cin >> num1 >> op >> num2;
+            
+                    // Perform the operation based on the operator
+                    switch (op) {
+                        case '+':
+                            result = num1 + num2;
+                            break;
+                        case '-':
+                            result = num1 - num2;
+                            break;
+                        case '*':
+                            result = num1 * num2;
+                            break;
+                        case '/':
+                            if (num2 != 0) {
+                                result = num1 / num2;
+                            } else {
+                                cout << "Error: Division by zero is not allowed." << endl;
+                                continue;
+                            }
+                            break;
+                        default:
+                            cout << "Error: Invalid operator." << endl;
+                            continue;
+                    }
+            
+                    cout << "Answer = " << fixed << setprecision(6) << result << endl;
+            
+                    cout << "Do another (y/n)? ";
+                    cin >> doAnother;
+                }
+            
+                cout << "Goodbye!" << endl;
+                return 0;
+            }         
+            
+    </code>
+</pre>
+        <!-- five coe block -->
+        <p class="code">Develop an object program in cpp to create a data base of student information system containing
+            the following information </p>
+        <pre class="code-block">
+    <button class="copy-btn">Copy</button>
+    <code>
+        #include <iostream>
+            #include <string>
+            using namespace std;
+            
+            class Student {
+            private:
+                string name;
+                int rollNumber;
+                string studentClass;
+                char division;
+                string dateOfBirth;
+                string bloodGroup;
+                string contactAddress;
+                string telephoneNumber;
+                string drivingLicenseNumber;
+            
+                static int studentCount; // Static member to count the number of students
+            
+            public:
+                // Default constructor
+                Student() : name(""), rollNumber(0), studentClass(""), division(' '), dateOfBirth(""), bloodGroup(""), contactAddress(""), telephoneNumber(""), drivingLicenseNumber("") {
+                    studentCount++;
+                }
+            
+                // Parameterized constructor
+                Student(string name, int rollNumber, string studentClass, char division, string dateOfBirth, string bloodGroup, string contactAddress, string telephoneNumber, string drivingLicenseNumber)
+                    : name(name), rollNumber(rollNumber), studentClass(studentClass), division(division), dateOfBirth(dateOfBirth), bloodGroup(bloodGroup), contactAddress(contactAddress), telephoneNumber(telephoneNumber), drivingLicenseNumber(drivingLicenseNumber) {
+                    studentCount++;
+                }
+            
+                // Copy constructor
+                Student(const Student &other)
+                    : name(other.name), rollNumber(other.rollNumber), studentClass(other.studentClass), division(other.division), dateOfBirth(other.dateOfBirth), bloodGroup(other.bloodGroup), contactAddress(other.contactAddress), telephoneNumber(other.telephoneNumber), drivingLicenseNumber(other.drivingLicenseNumber) {
+                    studentCount++;
+                }
+            
+                // Destructor
+                ~Student() {
+                    studentCount--;
+                }
+                inline void display() const {
+                    cout << "\nStudent Details:" << endl;
+                    cout << "Name: " << name << endl;
+                    cout << "Roll Number: " << rollNumber << endl;
+                    cout << "Class: " << studentClass << endl;
+                    cout << "Division: " << division << endl;
+                    cout << "Date of Birth: " << dateOfBirth << endl;
+                    cout << "Blood Group: " << bloodGroup << endl;
+                    cout << "Contact Address: " << contactAddress << endl;
+                    cout << "Telephone Number: " << telephoneNumber << endl;
+                    cout << "Driving License Number: " << drivingLicenseNumber << endl;
+                }
+                static int getStudentCount() {
+                    return studentCount;
+                }
+                friend void displayPrivateData(const Student &student);
+            
+                // Dynamic memory allocation using new
+                void *operator new(size_t size) {
+                    cout << "Allocating memory for Student object." << endl;
+                    void *ptr = ::operator new(size);
+                    return ptr;
+                }
+            
+                void operator delete(void *ptr) {
+                    cout << "Deallocating memory for Student object." << endl;
+                    ::operator delete(ptr);
+                }
+            };
+            
+            // Initialize static member
+            int Student::studentCount = 0;
+            
+            // Friend function definition
+            void displayPrivateData(const Student &student) {
+                cout << "\nAccessing private data through friend function:" << endl;
+                cout << "Name: " << student.name << endl;
+                cout << "Roll Number: " << student.rollNumber << endl;
+            }
+            
+            int main() {
+                // Dynamic allocation of Student object
+                Student *student1 = new Student("Parmeshwar Bodake", 1, "MCA", 'C', "2005-01-15", "O+", "Yewalewadi", "8459209346", "DL12345");
+                student1->display();
+                Student *student2 = new Student("Parmeshwar Bodake", 1, "MCA", 'C', "2005-01-15", "O+", "Yewalewadi", "8459209346", "DL12345");
+                student2->display();
+            
+                cout << "\nTotal Students: " << Student::getStudentCount() << endl;
+                displayPrivateData(*student1);
+                cout << "\nTotal Students: " << Student::getStudentCount() << endl;
+                displayPrivateData(*student2);
+            
+                cout << "\nTotal Students after deletion: " << Student::getStudentCount() << endl;
+            
+                return 0;
+            }
+            
+    </code>
+</pre>
+        <!-- six code block -->
+        <p class="code">Create a class template to represent a generic vector. Include following member functions:
+            To create the vector.
+            To modify the value of a given element
+            To multiply by a scalar value
+            To display the vector in the form (10,20,30,...) </p>
+        <pre class="code-block">
+    <button class="copy-btn">Copy</button>
+    <code>
+        #include <iostream>
+            #include <vector>
+            using namespace std;
+            
+            template <typename T>
+            class GenericVector
+            {
+            private:
+                vector<T> elements;
+            
+            public:
+                GenericVector(size_t size, T defaultValue = T())
+                {
+                    elements.resize(size, defaultValue);
+                }
+                void modifyElement(size_t index, T value)
+                {
+                    if (index < elements.size())
+                    {
+                        elements[index] = value;
+                    }
+                    else
+                    {
+                        cout << "Index out of bounds." << endl;
+                    }
+                }
+                void multiplyByScalar(T scalar)
+                {
+                    for (size_t i = 0; i < elements.size(); ++i)
+                    {
+                        elements[i] *= scalar;
+                    }
+                }
+                void display() const
+                {
+                    cout << "(";
+                    for (size_t i = 0; i < elements.size(); ++i)
+                    {
+                        cout << elements[i];
+                        if (i < elements.size() - 1)
+                        {
+                            cout << ",";
+                        }
+                    }
+                    cout << ")" << endl;
+                }
+            };
+            
+            int main()
+            {
+                GenericVector<int> intVector(5, 0);
+                intVector.modifyElement(0, 10);
+                intVector.modifyElement(1, 20);
+                intVector.modifyElement(2, 30);
+            
+                cout << "Original vector: ";
+                intVector.display();
+            
+                intVector.multiplyByScalar(2);
+                cout << "After multiplying by scalar 2: ";
+                intVector.display();
+            
+                GenericVector<double> doubleVector(3, 1.1);
+            
+                doubleVector.modifyElement(0, 2.2);
+                doubleVector.modifyElement(1, 3.3);
+            
+                cout << "Double vector: ";
+                doubleVector.display();
+            
+                return 0;
+            }
+            
+            
+    </code>
+</pre>
+        <!-- seven code block -->
+        <p class="code">Imagine a publishing company which does marketing for book and audiocassette versions. Create a
+            class
+            publication that stores the title (a string) and price (type float) of a publication. From this class derive
+            two
+            classes: book, which adds a page count (type int), and tape, which adds a playing time in minutes (type
+            float).
+            Write a program that instantiates the book and tape classes, allows user to enter data and displays the
+            data members. If an exception is caught, replace all the data member values with zero values.</p>
+        <pre class="code-block">
+    <button class="copy-btn">Copy</button>
+    <code>
+        #include <iostream>
+            #include <string>
+            using namespace std;
+            
+            class Publication
+            {
+            protected:
+                string title;
+                float price;
+            
+            public:
+                Publication()
+                {
+                    title = "";
+                    price = 0.0f;
+                }
+            
+                virtual void getData()
+                {
+                    cout << "Enter title: ";
+                    cin.ignore();
+                    getline(cin, title);
+                    cout << "Enter price: ";
+                    cin >> price;
+                }
+            
+                virtual void putData() const
+                {
+                    cout << "Title: " << title << "\nPrice: " << price << endl;
+                }
+            
+                virtual ~Publication() {}
+            };
+            
+            class Book : public Publication
+            {
+            private:
+                int pageCount;
+            
+            public:
+                Book() : pageCount(0) {}
+            
+                void getData() override
+                {
+                    try
+                    {
+                        Publication::getData();
+                        cout << "Enter page count: ";
+                        cin >> pageCount;
+                        if (pageCount < 0)
+                        {
+                            throw invalid_argument("Page count cannot be negative.");
+                        }
+                    }
+                    catch (const exception &e)
+                    {
+                        cerr << "Error: " << e.what() << endl;
+                        title = "";
+                        price = 0.0f;
+                        pageCount = 0;
+                    }
+                }
+            
+                void putData() const override
+                {
+                    Publication::putData();
+                    cout << "Page Count: " << pageCount << endl;
+                }
+            };
+            
+            class Tape : public Publication
+            {
+            private:
+                float playingTime;
+            
+            public:
+                Tape()  {
+                    playingTime = 0.0f;
+                }
+            
+                void getData() override
+                {
+                    try
+                    {
+                        Publication::getData();
+                        cout << "Enter playing time (in minutes): ";
+                        cin >> playingTime;
+                        if (playingTime < 0)
+                        {
+                            throw invalid_argument("Playing time cannot be negative.");
+                        }
+                    }
+                    catch (const exception &e)
+                    {
+                        cerr << "Error: " << e.what() << endl;
+                        title = "";
+                        price = 0.0f;
+                        playingTime = 0.0f;
+                    }
+                }
+            
+                void putData() const override
+                {
+                    Publication::putData();
+                    cout << "Playing Time: " << playingTime << " minutes" << endl;
+                }
+            };
+            
+            int main()
+            {
+                Book book;
+                Tape tape;
+            
+                cout << "Enter data for book:\n";
+                book.getData();
+            
+                cout << "\nEnter data for tape:\n";
+                tape.getData();
+            
+                cout << "\nBook details:\n";
+                book.putData();
+            
+                cout << "\nTape details:\n";
+                tape.putData();
+            
+                return 0;
+            }
+           
+    </code>
+</pre>
+        <!-- eight code block -->
+        <p class="code">create a class Rational number (Fraction ) with the following capabilities </p>
+        <pre class="code-block">
+    <button class="copy-btn">Copy</button>
+    <code>
+        #include <iostream>
+            using namespace std;
+            
+            class RationalNumber {
+            private:
+                int numerator;
+                int denominator;
+            
+                // Function to reduce the fraction without gcd
+                void reduce() {
+                    int a = numerator, b = denominator;
+                    while (b != 0) {
+                        int temp = b;
+                        b = a % b;
+                        a = temp;
+                    }
+                    int gcdValue = a > 0 ? a : -a; // Ensure gcd is positive
+                    numerator /= gcdValue;
+                    denominator /= gcdValue;
+                    if (denominator < 0) { // Ensure denominator is always positive
+                        numerator = -numerator;
+                        denominator = -denominator;
+                    }
+                }
+            
+            public:
+                // Constructor
+                RationalNumber(int num = 0, int denom = 1) : numerator(num), denominator(denom) {
+                    if (denominator == 0) {
+                        throw invalid_argument("Denominator cannot be zero.");
+                    }
+                    reduce();
+                }
+            
+                // Overload + operator
+                RationalNumber operator+(const RationalNumber &rhs) const {
+                    int newNumerator = numerator * rhs.denominator + rhs.numerator * denominator;
+                    int newDenominator = denominator * rhs.denominator;
+                    return RationalNumber(newNumerator, newDenominator);
+                }
+            
+                // Overload - operator
+                RationalNumber operator-(const RationalNumber &rhs) const {
+                    int newNumerator = numerator * rhs.denominator - rhs.numerator * denominator;
+                    int newDenominator = denominator * rhs.denominator;
+                    return RationalNumber(newNumerator, newDenominator);
+                }
+            
+                // Overload * operator
+                RationalNumber operator*(const RationalNumber &rhs) const {
+                    return RationalNumber(numerator * rhs.numerator, denominator * rhs.denominator);
+                }
+            
+                // Overload / operator
+                RationalNumber operator/(const RationalNumber &rhs) const {
+                    if (rhs.numerator == 0) {
+                        throw invalid_argument("Division by zero.");
+                    }
+                    return RationalNumber(numerator * rhs.denominator, denominator * rhs.numerator);
+                }
+            
+                // Overload relational operators
+                bool operator<(const RationalNumber &rhs) const {
+                    return numerator * rhs.denominator < rhs.numerator * denominator;
+                }
+            
+                bool operator<=(const RationalNumber &rhs) const {
+                    return numerator * rhs.denominator <= rhs.numerator * denominator;
+                }
+            
+                bool operator>(const RationalNumber &rhs) const {
+                    return numerator * rhs.denominator > rhs.numerator * denominator;
+                }
+            
+                bool operator>=(const RationalNumber &rhs) const {
+                    return numerator * rhs.denominator >= rhs.numerator * denominator;
+                }
+            
+                bool operator==(const RationalNumber &rhs) const {
+                    return numerator * rhs.denominator == rhs.numerator * denominator;
+                }
+            
+                bool operator!=(const RationalNumber &rhs) const {
+                    return !(*this == rhs);
+                }
+            
+                // Display the rational number
+                void display() const {
+                    cout << numerator << "/" << denominator;
+                }
+            };
+            
+            int main() {
+                try {
+                    RationalNumber r1(1, 2);
+                    RationalNumber r2(3, 4);
+            
+                    cout << "r1: ";
+                    r1.display();
+                    cout << "\nr2: ";
+                    r2.display();
+            
+                    RationalNumber r3 = r1 + r2;
+                    cout << "\nr1 + r2: ";
+                    r3.display();
+            
+                    RationalNumber r4 = r1 - r2;
+                    cout << "\nr1 - r2: ";
+                    r4.display();
+            
+                    RationalNumber r5 = r1 * r2;
+                    cout << "\nr1 * r2: ";
+                    r5.display();
+            
+                    RationalNumber r6 = r1 / r2;
+                    cout << "\nr1 / r2: ";
+                    r6.display();
+            
+                    cout << "\nComparison r1 < r2: " << (r1 < r2);
+                    cout << "\nComparison r1 == r2: " << (r1 == r2);
+            
+                } catch (const exception &e) {
+                    cout << "Error: " << e.what() << endl;
+                }
+            
+                return 0;
+            }
+            
+           
+    </code>
+</pre>
+        <!-- nine code block -->
+        <p class="code">Write C++ Program with base class convert declares two variables, val1 and val2, which hold the
+            initial
+            and converted values, respectively. It also defines the functions getinit( ) and getconv( ), which return
+            the
+            initial value and the converted value. These elements of convert are fixed and applicable to all derived
+            classes that will inherit convert. However, the function that will actually perform the conversion,
+            compute( ), is a pure virtual
+            function that must be defined by the classes derived from convert. The specific nature of compute( )
+            will be determined by what type of conversion is taking place.
+        </p>
+        <pre class="code-block">
+    <button class="copy-btn">Copy</button>
+    <code>
+        #include <iostream>
+            #include <string>
+            using namespace std;
+            
+            class Convert {
+            protected:
+                double val1; // Initial value
+                double val2; // Converted value
+            
+            public:
+                Convert(double initialValue = 0.0)  {
+                     this->val1 = initialValue;
+                     this->val2 = 0.0; 
+                }
+            
+                double getInit() const {
+                    return val1;
+                }
+            
+                double getConv() const {
+                    return val2;
+                }
+            
+                virtual void compute() = 0; 
+            
+                virtual ~Convert() {}
+            };
+            
+            class FahrenheitToCelsius : public Convert {
+            public:
+                FahrenheitToCelsius(double fahrenheit = 0.0) : Convert(fahrenheit) {}
+            
+                void compute() override {
+                    val2 = (val1 - 32) * 5.0 / 9.0;
+                }
+            };
+            
+            class CelsiusToFahrenheit : public Convert {
+            public:
+                CelsiusToFahrenheit(double celsius = 0.0) {
+                    this->val1 = celsius;
+                }
+            
+                void compute() override {
+                    val2 = (val1 * 9.0 / 5.0) + 32;
+                }
+            };
+            
+            class KilometersToMiles : public Convert {
+            public:
+                KilometersToMiles(double kilometers = 0.0) {
+                    this->val1 = kilometers;
+                }
+            
+                void compute() override {
+                    val2 = val1 * 0.621371;
+                }
+            };
+            
+            int main() {
+                double value;
+            
+                cout << "Enter value in Fahrenheit to convert to Celsius: ";
+                cin >> value;
+                FahrenheitToCelsius fToC(value);
+                fToC.compute();
+                cout << value << " Fahrenheit is " << fToC.getConv() << " Celsius." << endl;
+            
+                cout << "\nEnter value in Celsius to convert to Fahrenheit: ";
+                cin >> value;
+                CelsiusToFahrenheit cToF(value);
+                cToF.compute();
+                cout << value << " Celsius is " << cToF.getConv() << " Fahrenheit." << endl;
+            
+                cout << "\nEnter value in Kilometers to convert to Miles: ";
+                cin >> value;
+                KilometersToMiles kmToMiles(value);
+                kmToMiles.compute();
+                cout << value << " Kilometers is " << kmToMiles.getConv() << " Miles." << endl;
+            
+                return 0;
+            }            
+           
+    </code>
+</pre>
+        <!-- ten code block -->
+        <p class="code">Write a C++ to illustrate the concepts of console I/O operations.
+        </p>
+        <pre class="code-block">
+    <button class="copy-btn">Copy</button>
+    <code>
+        #include <iostream>
+            #include <fstream>
+            #include <string>
+            
+            using namespace std;
+            
+            int main() {
+                string input;
+                string filename;
+            
+                cout << "Enter a filename to write to: ";
+                getline(cin, filename);
+                cout << "Enter the text you want to write to the file: ";
+                getline(cin, input);
+            
+                ofstream outfile(filename);
+                if (outfile.is_open()) {
+                    outfile << input << endl;
+                    outfile.close();
+                    cout << "Successfully wrote to the file: " << filename << endl;
+                } else {
+                    cerr << "Unable to open file for writing." << endl;
+                }
+            
+                ifstream infile(filename);
+                if (infile.is_open()) {
+                    string line;
+                    cout << "Contents of the file: " << endl;
+                    while (getline(infile, line)) {
+                        cout << line << endl;
+                    }
+                    infile.close();
+                } else {
+                    cerr << "Unable to open file for reading." << endl;
+                }
+            
+                return 0;
+            }
+                 
+           
+    </code>
+</pre>
+        <!-- eleven code block -->
+        <p class="code">Write a C++ program to read the data of N employee and compute Net salary of each
+            employee (DA=52% of Basic and Income Tax (IT) =30% of the gross salary).
+        </p>
+        <pre class="code-block">
+    <button class="copy-btn">Copy</button>
+    <code>
+        #include <iostream>
+            #include <string>
+            using namespace std;
+            
+            class Employee {
+            private:
+                int employeeNumber;
+                string employeeName;
+                float basic;
+                float da;
+                float it;
+                float grossSalary;
+                float netSalary;
+            
+            public:
+                void inputDetails() {
+                    cout << "Enter Employee Number: ";
+                    cin >> employeeNumber;
+                    cout << "Enter Employee Name: ";
+                    getline(cin, employeeName);
+                    cout << "Enter Basic Salary: ";
+                    cin >> basic;
+                    
+                    // Calculate DA (52% of Basic)
+                    da = 0.52 * basic;
+                    // Calculate Gross Salary (Basic + DA)
+                    grossSalary = basic + da;
+                    // Calculate IT (30% of Gross Salary)
+                    it = 0.30 * grossSalary;
+                    // Calculate Net Salary (Gross Salary - IT)
+                    netSalary = grossSalary - it;
+                }
+                void displayDetails() {
+                    cout << "Employee Number: " << employeeNumber << endl;
+                    cout << "Employee Name: " << employeeName << endl;
+                    cout << "Basic Salary: " << basic << endl;
+                    cout << "DA: " << da << endl;
+                    cout << "Gross Salary: " << grossSalary << endl;
+                    cout << "IT: " << it << endl;
+                    cout << "Net Salary: " << netSalary << endl;
+                    cout << "-----------------------------" << endl;
+                }
+            };
+            
+            int main() {
+                int n;
+                cout << "Enter the number of employees: ";
+                cin >> n;
+            
+                Employee* employees = new Employee[n];
+            
+                for (int i = 0; i < n; i++) {
+                    cout << "\nEnter details for employee " << (i + 1) << ":" << endl;
+                    employees[i].inputDetails();
+                }
+            
+                cout << "\nDisplaying Employee Details:" << endl;
+                for (int i = 0; i < n; i++) {
+                    employees[i].displayDetails();
+                }
+            
+                return 0;
+            }
+            
+           
+    </code>
+</pre>
+        <!-- telve code block -->
+        <p class="code">Write a C++ Program to display Names, Roll No., and grades of 3 students who have appeared
+            in the examination. Declare the class of name, Roll No. and grade. Create an array of class
+            objects. Read and display the contents of the array.
+        </p>
+        <pre class="code-block">
+    <button class="copy-btn">Copy</button>
+    <code>
+        #include <iostream>
+            #include <string>
+            using namespace std;
+            
+            #define MAX 3 
+            
+            class Student
+            {
+            private:
+                string name;
+                string roll_no;
+                char grade;
+            
+            public:
+                void inputDetails()
+                {
+                    cout << "Enter Name: ";
+                    cin >> name;
+                    cout << "Enter Roll No: ";
+                    cin >> roll_no;
+                    cout << "Enter Grade: ";
+                    cin >> grade;
+                }
+                void displayDetails()
+                {
+                    cout << "Name: " << name << "\nRoll No: " << roll_no << "\nGrade: " << grade << endl;
+                }
+            };
+            
+            int main(){
+                Student std[MAX];
+                for (int i = 0; i < MAX; i++) {
+                    cout << "Enter details for student " << (i + 1) << ":" << endl;
+                    std[i].inputDetails();
+                }
+            
+                cout << "\nDisplaying details of students:" << endl;
+                for (int i = 0; i < MAX; i++) {
+                    std[i].displayDetails();
+                }
+            
+                return 0;
+            }
+            
+            
+           
+    </code>
+</pre>
+        <!-- thirteen code block -->
+        <p class="code">Write a C++ program to declare Struct. Initialize and display contents of member variables.
+        </p>
+        <pre class="code-block">
+    <button class="copy-btn">Copy</button>
+    <code>
+        #include <iostream>
+            using namespace std;
+            
+            struct Student {
+                string name;
+                int rollNo;
+                char grade;
+            };
+            
+            int main() {
+                Student student1 = {"Pamrshwar Bodake", 101, 'A'};
+                Student student2 = {"Rutuja Chakor", 102, 'B'};
+                Student student3 = {"Himesh Koli", 103, 'A'};
+            
+                cout << "Student 1: Name = " << student1.name << ", Roll No = " << student1.rollNo << ", Grade = " << student1.grade << endl;
+                cout << "Student 2: Name = " << student2.name << ", Roll No = " << student2.rollNo << ", Grade = " << student2.grade << endl;
+                cout << "Student 3: Name = " << student3.name << ", Roll No = " << student3.rollNo << ", Grade = " << student3.grade << endl;
+            
+                return 0;
+            }
+                 
+    </code>
+</pre>
+        <!-- fourteen code block -->
+        <p class="code">Write a C++ program to declare a class. Declare pointer to class. Initialize and display the
+            contents of the class member.
+        </p>
+        <pre class="code-block">
+    <button class="copy-btn">Copy</button>
+    <code>
+        #include <iostream>
+            #include <string>
+            using namespace std;
+            
+            class Addition
+            {
+            private:
+                int num1;
+                int num2;
+                int sum;
+            
+            public:
+                Addition(int num1, int num2)
+                {
+                    this->num1 = num1;
+                    this->num2 = num2;
+                }
+            
+                int calculate()
+                {
+                    sum = num1 + num2;
+                    return sum;
+                }
+            };
+            
+            int main()
+            {
+                Addition obj(5, 10);
+                Addition obj2(10, 20);
+            
+                int result2 = obj2.calculate();
+                int result = obj.calculate();
+                Addition *ptr;
+                ptr = &obj;
+                cout << "Addition of First : " << ptr->calculate() << endl;
+                ptr = &obj2;
+                cout << "Addition of second : " << ptr->calculate() << endl;
+            }
+                 
+    </code>
+</pre>
+        <!-- fiftenn code block -->
+        <p class="code">Given that an EMPLOYEE class contains following members: data members: Employee
+            number, Employee name, Basic, DA, IT, Net Salary and print data members.
+        </p>
+        <pre class="code-block">
+    <button class="copy-btn">Copy</button>
+    <code>
+        #include <iostream>
+            #include <string>
+            using namespace std;
+            
+            class Employee {
+            private:
+                int employeeNumber;
+                string employeeName;
+                float basic;
+                float da;  
+                float it;  
+                float netSalary;
+            
+            public:
+                void inputDetails() {
+                    cout << "Enter Employee Number: ";
+                    cin >> employeeNumber;
+                    cout << "Enter Employee Name: ";
+                    cin.ignore();
+                    getline(cin, employeeName);
+                    cout << "Enter Basic Salary: ";
+                    cin >> basic;
+                    cout << "Enter DA: ";
+                    cin >> da;
+                    cout << "Enter IT: ";
+                    cin >> it;
+                    
+                    // Calculate Net Salary
+                    netSalary = basic + da - it;
+                }
+            
+                void displayDetails() {
+                    cout << "Employee Number: " << employeeNumber << endl;
+                    cout << "Employee Name: " << employeeName << endl;
+                    cout << "Basic Salary: " << basic << endl;
+                    cout << "DA: " << da << endl;
+                    cout << "IT: " << it << endl;
+                    cout << "Net Salary: " << netSalary << endl;
+                }
+            };
+            
+            int main() {
+                Employee emp;
+                emp.inputDetails();
+                cout << "\nDisplaying Employee Details:" << endl;
+                emp.displayDetails();
+            
+                return 0;
+            }
+            
+            
+                 
+    </code>
+</pre>
+        <!-- sixteen code block -->
+        <p class="code"> Write a C++ program to use scope resolution operator. Display the various values of the
+            same variables declared at different scope levels
+        <pre class="code-block">
+    <button class="copy-btn">Copy</button>
+    <code>
+        #include <iostream>
+
+            using namespace std;
+            
+            int globalVar = 1; 
+            
+            class MyClass {
+            public:
+                static int classVar; 
+                void displayVariables() {
+                    int localVar = 3; 
+                    cout << "Local variable: " << localVar << endl;
+                    cout << "Class variable: " << MyClass::classVar << endl;
+                }
+            };
+            
+            int MyClass::classVar = 2; 
+            
+            int main() {
+                MyClass obj;
+                obj.displayVariables();
+            
+                return 0;
+            }      
+    </code>
+</pre>
+        <!-- seventeen code block -->
+        <p class="code">Write a C++ program to allocate memory using new operator.
+        <pre class="code-block">
+    <button class="copy-btn">Copy</button>
+    <code>
+        #include <iostream>
+
+            using namespace std;
+            
+            int main() {
+                int size;
+            
+                cout << "Enter the size of the array: ";
+                cin >> size;
+                int* arrayPtr = new int[size];
+                for (int i = 0; i < size; ++i) {
+                    arrayPtr[i] = i + 1; 
+                }
+            
+                cout << "Values in dynamically allocated array: ";
+                for (int i = 0; i < size; ++i) {
+                    cout << arrayPtr[i] << " ";
+                }
+                delete[] arrayPtr;  // free memory allocated 
+            
+                return 0;
+            }
+            
+    </code>
+</pre>
+        <!-- eighteen code block -->
+        <p class="code">Write a C++ program to create multilevel inheritance. (Hint: Classes A1, A2, A3)
+        <pre class="code-block">
+    <button class="copy-btn">Copy</button>
+    <code>
+        #include <iostream>
+
+            using namespace std;
+            
+            // Base class
+            class A1 {
+            public:
+                void showA1() {
+                    cout << "This is class A1" << endl;
+                }
+            };
+            
+            // Derived class from A1
+            class A2 : public A1 {
+            public:
+                void showA2() {
+                    cout << "This is class A2" << endl;
+                }
+            };
+            
+            // Derived class from A2
+            class A3 : public A2 {
+            public:
+                void showA3() {
+                    cout << "This is class A3" << endl;
+                }
+            };
+            
+            int main() {
+                A3 obj;
+            
+                obj.showA1(); // Method from A1
+                obj.showA2(); // Method from A2
+                obj.showA3(); // Method from A3
+            
+                return 0;
+            }
+            
+            
+    </code>
+</pre>
+        <!-- nineteen code block -->
+        <p class="code">Write a C++ program to create an array of pointers. Invoke functions using array objects.
+        <pre class="code-block">
+    <button class="copy-btn">Copy</button>
+    <code>
+        #include <iostream>
+
+            using namespace std;
+            
+            class MyClass {
+            public:
+                void display() {
+                    cout << "Hello from MyClass!" << endl;
+                }
+            };
+            
+            int main() {
+                int size = 3;
+                MyClass* objArray[size];
+            
+                for (int i = 0; i < size; ++i) {
+                    objArray[i] = new MyClass();
+                    objArray[i]->display();
+                }
+            
+                return 0;
+            }
+ 
+    </code>
+</pre>
+        <!-- twenty code block -->
+        <p class="code">Write a C++ program to use pointer for both base and derived classes and call the member
+            function. Use Virtual keyword.
+        <pre class="code-block">
+    <button class="copy-btn">Copy</button>
+    <code>
+        #include <iostream>
+
+            using namespace std;
+            
+            // Base class
+            class Base {
+            public:
+                virtual void display() {
+                    cout << "Displaying Base class" << endl;
+                }
+            };
+            
+            // Derived class
+            class Derived : public Base {
+            public:
+                void display() override {
+                    cout << "Displaying Derived class" << endl;
+                }
+            };
+            
+            int main() {
+                Base* basePtr;
+                Derived derivedObj;
+                basePtr = &derivedObj;
+            
+                basePtr->display(); 
+            
+                return 0;
+            } 
+    </code>
+</pre>
+    </main>
+
+    <footer>
+        &copy; 2025 Code Viewer. All rights reserved. || Author :&nbsp;&nbsp;&nbsp;&nbsp; <a
+            href="http://github.com/parmeshwar123" target="_blank">Parmeshwar Bodake</a>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+
+</html>
